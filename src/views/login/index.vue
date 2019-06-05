@@ -1,32 +1,18 @@
 <template>
   <div class="login-box">
     <div class="login-form">
-      <p class="login-title">用户登录</p>
-      <p class="login-en">USER LOGIN</p>
       <el-form :model="loginForm"
                :rules="rules"
                ref="loginForm"
                label-width="0px"
                class="ms-content">
         <el-form-item prop="username">
-          <el-input placeholder="请输入用户名"
+          <el-input placeholder="请输入您的名字"
                     v-model="loginForm.username"
                     size="large"
                     suffix-icon="iconfont icon-yonghu"
                     @keyup.enter.native="submitForm('loginForm')">
           </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input type="password"
-                    placeholder="请输入密码"
-                    v-model="loginForm.password"
-                    suffix-icon="iconfont icon-mima"
-                    @keyup.enter.native="submitForm('loginForm')"
-                    size="large">
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-checkbox v-model="loginForm.savepwd">记住密码</el-checkbox>
         </el-form-item>
         <div class="login-btn">
           <el-button type="primary"
@@ -45,17 +31,11 @@ export default {
       loginOff: false,
       loginTxt: '登录',
       loginForm: {
-        username: '',
-        password: '',
-        savepwd: true
+        username: ''
       },
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 1, max: 25, message: '长度在 1 到 25 个字符', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 1, max: 25, message: '长度在 1 到 25 个字符', trigger: 'blur' }
         ]
       }
@@ -65,20 +45,10 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.loginOff = true
-          this.loginTxt = '登录中...'
-          this.$currentUser.login({ ...this.loginForm }).then(() => {
-            this.loginOff = false
-            this.loginTxt = '登录'
-          })
-        } else {
-          this.$message({
-            showClose: true,
-            center: true,
-            message: '请检查输入是否正确',
-            type: 'error'
-          })
-          return false
+          const name = this.loginForm.username
+          this.$socket.emit('name', name)
+          this.$store.commit('login', name)
+          this.$router.push({ path: '/dashboard' })
         }
       })
     }
@@ -90,34 +60,16 @@ export default {
 .login-box {
   width: 100%;
   height: 100%;
-  min-width: 1100px;
-  min-height: 590px;
-  background: url("../../assets/imgs/bg.png") no-repeat center center;
-  background-size: 100% 100%;
+  position: relative;
+  // background: url("../../assets/imgs/bg.png") no-repeat center center;
+  // background-size: 100% 100%;
   .login-form {
     padding: 20px;
     box-sizing: border-box;
     background: rgba(255, 255, 255, 0.8);
-    position: fixed;
-    right: 100px;
+    position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    border-radius: 4px;
-    .login-title {
-      margin: 0;
-      font-size: 28px;
-      font-family: PingFang-SC-Regular;
-      font-weight: 400;
-      color: #4452d5;
-      line-height: 40px;
-    }
-    .login-en {
-      margin: 0;
-      font-size: 18px;
-      font-family: PingFang-SC-Regular;
-      font-weight: 400;
-      color: #b0b0b0;
-    }
+    transform: translateY(-100%);
     .ms-content {
       padding: 30px 0;
       .el-input {

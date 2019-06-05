@@ -36,6 +36,7 @@ Vue.prototype.$put = put
 
 Vue.use(ElementUI, { zIndex: 3000 })
 
+// const options = { path: '/chart-room/' }
 Vue.use(
   new VueSocketio({
     debug: true,

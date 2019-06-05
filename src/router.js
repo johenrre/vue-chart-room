@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import CurrentUserService from './core/currentUser'
-// import store from './store'
+import store from './store'
 
 Vue.use(Router)
 
@@ -12,11 +12,23 @@ const router = new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
+      beforeEnter: (to, form, next) => {
+        if (!store.state.isLogin) {
+          next('/login')
+        }
+        next()
+      },
       component: () => import('@/views/dashboard/index')
     },
     {
       path: '/login',
       name: 'login',
+      beforeEnter: (to, form, next) => {
+        if (store.state.isLogin) {
+          next('/dashboard')
+        }
+        next()
+      },
       component: () => import('@/views/login/index')
     },
     {

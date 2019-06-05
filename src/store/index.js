@@ -1,25 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import logonStatus from './module/logonStatus'
-// import permissionUsers from './module/permissionUsers'
-// import permissionRole from './module/permissionRole'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userInfo: {
-      userName: ''
-    }
+    isLogin: false,
+    name: '',
+    message: []
   },
   mutations: {
-    set_userInfo (state, info) {
-      state.userInfo = { ...info }
+    login (state, name) {
+      state.isLogin = true
+      state.name = name
+    },
+    message (state, msg) {
+      console.log('debug', msg)
+      state.message.push(msg)
     }
   }
-  // modules: {
-  //   logonStatus,
-  //   permissionUsers,
-  //   permissionRole
-  // }
 })
