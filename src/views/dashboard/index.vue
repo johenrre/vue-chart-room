@@ -1,6 +1,10 @@
 <template>
-  <div>
-    <h1>首页</h1>
+  <div class="chart-room">
+    <el-card ref="messages"
+             class="chart-messages">
+      <el-card v-for="(item, index) in messages"
+               v-bind:key="index">{{item.message}}</el-card>
+    </el-card>
     <el-form :model="form"
              ref="form"
              :rules="rules"
@@ -32,13 +36,18 @@ export default {
         message: [
           { required: true, message: '信息不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      messages: []
     }
   },
   sockets: {
     message: function (msg) {
-      console.log('收到信息', msg)
+      // console.log('收到信息', msg)
+      this.pushMessage(msg)
     }
+  },
+  mounted () {
+
   },
   methods: {
     sendMessage (formName) {
@@ -47,12 +56,40 @@ export default {
         if (valid) {
           const m = this.form.message
           formRef.resetFields()
+          this.pushMessage(m, 'right', true)
           this.$socket.emit('message', m)
         }
       })
+    },
+    pushMessage (msg, position = 'left', self = false) {
+      const m = {
+        message: `${self ? '我: ' : ''}${msg}`,
+        position
+      }
+      this.messages.push(m)
+      this.$nextTick(() => {
+        console.log('dosome')
+        this.scroldown()
+      })
+    },
+    // 聊天窗口滑动到底部
+    scroldown () {
+      const el = this.$refs['messages'].$el
+      el.scrollTop = el.scrollHeight - el.clientHeight
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.chart-room {
+  width: 100%;
+  height: 100%;
+  .chart-messages {
+    width: 100%;
+    height: 50%;
+    overflow: scroll;
+    box-sizing: border-box;
+  }
+}
+</style>

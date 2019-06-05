@@ -32,6 +32,26 @@ Vue.use(
 )
 
 // 在vue实例中的使用
+
+// 发送数据
 this.$socket.emit('message', m)  // message是服务端监听的事件
+// 接收服务器数据
+sockets: {
+  message: function (msg) {				// message是服务端触发的事件
+    console.log('收到信息', msg)
+  }
+},
+
+// 注意防坑
+// 在服务器执行下面代码， 广播信息时候，当前socket是收不到信息的
+socket.on('message', function(msg) {
+  console.log(`收到了：${msg}`);
+  // io.sockets.emit('message', msg)
+  var user = socket.name;
+  // 广播聊天消息
+  // socket.emit('message', `${user}: ${msg}`);
+  socket.broadcast.emit('message', `${user}: ${msg}`);
+});
+
 ```
 

@@ -10,8 +10,7 @@
           <el-input placeholder="请输入您的名字"
                     v-model="loginForm.username"
                     size="large"
-                    suffix-icon="iconfont icon-yonghu"
-                    @keyup.enter.native="submitForm('loginForm')">
+                    suffix-icon="iconfont icon-yonghu">
           </el-input>
         </el-form-item>
         <div class="login-btn">
