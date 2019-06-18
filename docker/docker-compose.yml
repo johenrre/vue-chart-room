@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  autobole-managerv_build:
+    build: ../
+    container_name: 'autobole-managerv_build'
+    volumes:
+      - dist:/usr/src/app/dist
+
+  autobole-managerv_web:
+    image: nginx
+    ports:
+      - 8081:80
+    container_name: 'autobole-managerv_web'
+    restart: unless-stopped
+    volumes:
+      - dist:/usr/share/nginx/html:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - autobole-managerv_web
+
+volumes:
+  dist:

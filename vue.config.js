@@ -3,7 +3,7 @@ module.exports = {
   // 默认假设你的应用将会部署在域名的根部
   // 比如，https://www.vue-cli.com/
   // 如果你的应用是部署在一个子路径下，那么你需要在这里指定子路径，比如，如果你部署在 https://www.my-vue.com/my-app/; 那么将这个值改为 “/my-app/”
-  publicPath: '/',
+  publicPath: './',
 
   // 将构建好的文件输出到哪里 当运行 vue-cli-service build 时生成的生产环境构建文件的目录。注意目标目录在构建之前会被清除 (构建时传入 --no-clean 可关闭该行为)。
   outputDir: 'dist',
@@ -42,7 +42,7 @@ module.exports = {
   devServer: {
     // host: '0.0.0.0',
     host: 'localhost',
-    port: 8080, // 端口号
+    port: 8081, // 端口号
     https: false, // https:{type:Boolean}
     open: false // 配置自动启动浏览器  open: 'Google Chrome'-默认启动谷歌
     // proxy: 'http://localhost:9000' // 配置跨域处理,只有一个代理
