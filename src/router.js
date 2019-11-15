@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import CurrentUserService from './core/currentUser'
-import store from './store'
+import CurrentUserService from './core/currentUser'
 
 Vue.use(Router)
 
@@ -17,7 +16,7 @@ const router = new Router({
       path: '/dashboard',
       name: 'dashboard',
       beforeEnter: (to, form, next) => {
-        if (!store.state.isLogin) {
+        if (!CurrentUserService.isLogin) {
           next('/login')
         }
         next()
@@ -27,28 +26,8 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      beforeEnter: (to, form, next) => {
-        if (store.state.isLogin) {
-          next('/dashboard')
-        }
-        next()
-      },
       component: () => import('@/views/login/index')
-    },
-    {
-      path: '/404',
-      name: '404',
-      component: () => import('@/views/error-page/404'),
-      hidden: true
-    },
-    {
-      path: '/401',
-      name: '401',
-      component: () => import('@/views/error-page/401'),
-      hidden: true
-    },
-    // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
+    }
   ]
 })
 
