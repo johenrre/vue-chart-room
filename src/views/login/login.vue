@@ -46,8 +46,8 @@ export default {
         if (valid) {
           const name = this.loginForm.username
           this.$socket.emit('name', name)
-          this.$store.commit('login', name)
-          this.$router.push({ path: '/dashboard' })
+          this.$currentUser.login(name)
+          this.$router.push({ path: '/chartRoom' })
         }
       })
     }

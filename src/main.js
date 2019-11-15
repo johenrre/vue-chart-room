@@ -9,6 +9,7 @@ import { post, get, patch, put } from './utils/http'
 
 import CurrentUserService from './core/currentUser'
 import 'normalize.css'
+import 'element-ui/lib/theme-chalk/index.css'
 // cocketio
 import VueSocketio from 'vue-socket.io'
 
