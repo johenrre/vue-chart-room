@@ -8,10 +8,7 @@ import ElementUI from 'element-ui'
 import { post, get, patch, put } from './utils/http'
 
 import CurrentUserService from './core/currentUser'
-// import "./registerServiceWorker";
-import './assets/css/element-variables.scss' // 自定义主题
 import 'normalize.css'
-import './assets/font/iconfont.css'
 // cocketio
 import VueSocketio from 'vue-socket.io'
 
