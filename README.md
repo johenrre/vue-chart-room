@@ -64,4 +64,8 @@ socket.on('message', function(msg) {
 - [ ]  添加表情包
 - [ ] 发送图片功能
 - [ ] 显示在线用户列表
-
+- [ ] docker打包
+  - [ ] vue的自动build
+  - [ ] nginx代理
+  - [ ] docker运行服务器
+  - [ ] docker-compose

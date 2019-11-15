@@ -30,6 +30,7 @@ Vue.use(ElementUI, { zIndex: 3000 })
 Vue.use(
   new VueSocketio({
     debug: true,
+    // 服务端的地址&端口
     connection: 'localhost:9000'
   })
 )
