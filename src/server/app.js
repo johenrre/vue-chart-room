@@ -28,7 +28,7 @@ io.on('connection', function (socket) {
   socket.emit('message', '你登录了')
   // 接收消息
   socket.on('message', function (msg) {
-    console.log(`收到了：${msg}`)
+    console.log(`收到了${socket.name}：${msg}`)
     // io.sockets.emit('message', msg)
     var user = socket.name
     // 广播聊天消息

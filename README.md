@@ -10,6 +10,11 @@ npm install
 npm start
 ```
 
+### 运行服务器
+```sh
+npm run server
+```
+
 ### 打包
 ```sh
 npm run build
@@ -59,8 +64,7 @@ socket.on('message', function(msg) {
 
 ### todo
 
-- [ ] 群主功能
-
+- [ ] 头像功能
 - [ ]  添加表情包
 - [ ] 发送图片功能
 - [ ] 显示在线用户列表
@@ -68,4 +72,5 @@ socket.on('message', function(msg) {
   - [ ] vue的自动build
   - [ ] nginx代理
   - [ ] docker运行服务器
-  - [ ] docker-compose
+  - [ ] 使用docker-compose一键部署
+

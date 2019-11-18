@@ -5,6 +5,11 @@
       <el-card v-for="(item, index) in messages"
                v-bind:key="index">{{item.message}}</el-card>
     </el-card>
+    <div>
+      <el-button>图片</el-button>
+      <el-button>emoji</el-button>
+      <el-button>clear</el-button>
+    </div>
     <el-form :model="form"
              ref="form"
              :rules="rules"

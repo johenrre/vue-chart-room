@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import CurrentUserService from './core/currentUser'
 
+import Layout from './layout'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -10,19 +12,22 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
-    },
-    {
-      path: '/chartRoom',
-      name: 'chartRoom',
-      beforeEnter: (to, form, next) => {
-        if (!CurrentUserService.isLogin) {
-          next('/login')
-        } else {
-          next()
+      component: Layout,
+      redirect: '/login',
+      children: [
+        {
+          path: '/chartRoom',
+          name: 'chartRoom',
+          beforeEnter: (to, form, next) => {
+            if (!CurrentUserService.isLogin) {
+              next('/login')
+            } else {
+              next()
+            }
+          },
+          component: () => import('@/views/chartRoom/chartRoom')
         }
-      },
-      component: () => import('@/views/chartRoom/chartRoom')
+      ]
     },
     {
       path: '/login',
