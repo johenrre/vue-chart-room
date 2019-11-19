@@ -1,7 +1,8 @@
 <template>
   <div class="chart-room">
     <el-card ref="messages"
-             class="chart-messages">
+             class="chart-messages"
+             v-viewer>
       <el-card v-for="(item, index) in messages"
                v-bind:key="index">
         <!-- {{item.message}} -->

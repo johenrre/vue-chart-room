@@ -10,6 +10,9 @@ import { post, get, patch, put } from './utils/http'
 import CurrentUserService from './core/currentUser'
 import 'normalize.css'
 import 'element-ui/lib/theme-chalk/index.css'
+
+import 'viewerjs/dist/viewer.css'
+import Viewer from 'v-viewer'
 // cocketio
 import VueSocketio from 'vue-socket.io'
 
@@ -34,6 +37,7 @@ Vue.use(
     connection: 'localhost:9000'
   })
 )
+Vue.use(Viewer)
 
 Vue.config.productionTip = false
 

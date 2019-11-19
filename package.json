@@ -20,6 +20,7 @@
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.2.0",
     "style-loader": "^0.23.1",
+    "v-viewer": "^1.4.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vue-socket.io": "^3.0.7",
