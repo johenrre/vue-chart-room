@@ -35,6 +35,11 @@ io.on('connection', function (socket) {
     // socket.emit('message', `${user}: ${msg}`);
     socket.broadcast.emit('message', `${user}: ${msg}`)
   })
+  socket.on('image', function (imgData) {
+    var user = socket.name
+    // 通过一个newImg事件分发到除自己外的每个用户
+    socket.broadcast.emit('image', user, imgData)
+  })
   // 监听用户断开连接
   socket.on('disconnect', () => {
     console.log('有人离开了')
