@@ -45,7 +45,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           const name = this.loginForm.username
-          this.$socket.emit('name', name)
+          const params = {
+            name,
+            avatartId: Math.floor(Math.random() * 9)
+          }
+          this.$socket.emit('login', params)
           this.$currentUser.login(name)
           this.$router.push({ path: '/chartRoom' })
         }

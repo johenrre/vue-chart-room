@@ -21,7 +21,7 @@ export default {
   margin: 0 auto;
   width: 800px;
   max-width: 90vw;
-  height: 735px;
-  max-height: 90vh;
+  // height: 735px;
+  height: 90vh;
 }
 </style>

@@ -1,21 +1,32 @@
 <template>
   <div class="chart-room">
-    <el-card ref="messages"
-             class="chart-messages"
-             v-viewer>
-      <el-card v-for="(item, index) in messages"
-               v-bind:key="index">
-        <!-- {{item.message}} -->
-        <template v-if="item.type === 'message'">
+    <div ref="messages"
+         class="chart-messages"
+         v-viewer>
+      <div class="message_box"
+           v-for="(item, index) in messages"
+           v-bind:key="index">
+        <div class="announcement"
+             v-if="item.type === 'announcement'">
           {{item.message}}
-        </template>
-        <template v-if="item.type === 'image'">
-          <img :src="item.imageData"
-               style="max-width: 50%;"
-               alt="image">
-        </template>
-      </el-card>
-    </el-card>
+        </div>
+        <div class="avatar"
+             v-if="item.type !== 'announcement'"></div>
+        <div class="content">
+          <div class="name">{{item.name}}</div>
+          <div class="message">
+            <template v-if="item.type === 'message'">
+              {{item.message}}
+            </template>
+            <template v-if="item.type === 'image'">
+              <img :src="item.imageData"
+                   style="max-width: 50%; cursor: zoom-in;"
+                   alt="image">
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
     <div>
       <el-button v-on:click="uploadImg">图片</el-button>
       <el-button>emoji</el-button>
@@ -66,14 +77,32 @@ export default {
     }
   },
   sockets: {
-    message: function (msg) {
-      // console.log('收到信息', msg)
-      this.pushMessage(msg)
+    message: function (response) {
+      const [user, msg] = response
+      console.log('收到信息', msg)
+      this.message.push({
+        type: 'message',
+        message: msg,
+        avatar: user.avatar
+      })
+
+      this.$nextTick(() => {
+        this.scroldown()
+      })
     },
     image: function (data) {
-      const user = data[0]
+      // const user = data[0]
       const imageData = data[1]
-      this.pushImage(user, imageData)
+      this.messages.push({
+        type: 'image',
+        imageData: imageData
+      })
+    },
+    announcement: function (msg) {
+      this.messages.push({
+        type: 'announcement',
+        message: msg
+      })
     }
   },
   mounted () {
@@ -95,12 +124,8 @@ export default {
       const m = {
         message: `${selfMessage ? '我: ' : ''}${msg}`,
         type: 'message'
-        // position
       }
       this.messages.push(m)
-      this.$nextTick(() => {
-        this.scroldown()
-      })
     },
     clear () {
       this.messages = []
@@ -121,15 +146,9 @@ export default {
         reader.readAsDataURL(file)
       }
     },
-    pushImage (user, imgData) {
-      this.messages.push({
-        type: 'image',
-        imageData: imgData
-      })
-    },
     // 聊天窗口滑动到底部
     scroldown () {
-      const el = this.$refs['messages'].$el
+      const el = this.$refs['messages']
       el.scrollTop = el.scrollHeight - el.clientHeight
     }
   }
@@ -139,12 +158,29 @@ export default {
 <style lang="scss" scoped>
 .chart-room {
   width: 100%;
-  height: 100%;
+  height: 85%;
   .chart-messages {
     width: 100%;
     height: 80%;
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     overflow: scroll;
     box-sizing: border-box;
+    .message_box {
+      position: relative;
+      margin: 10px;
+      .avatar {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 30px;
+        height: 30px;
+      }
+      .content {
+        margin-left: 30px;
+      }
+    }
   }
 }
 </style>
