@@ -2,6 +2,7 @@
   <div class="login-box">
     <div class="login-form">
       <el-form :model="loginForm"
+               @submit.native.prevent
                :rules="rules"
                ref="loginForm"
                label-width="0px"

@@ -48,6 +48,7 @@
                   v-model="form.message"
                   type="textarea"
                   size="large"
+                  @keyup.enter.native="sendMessage('form')"
                   suffix-icon="iconfont icon-yonghu">
         </el-input>
       </el-form-item>
@@ -73,7 +74,7 @@ export default {
       },
       rules: {
         message: [
-          { required: true, message: '信息不能为空' }
+          { required: true, message: '信息不能为空', trigger: 'blur' }
         ]
       },
       messages: [{
@@ -142,13 +143,6 @@ export default {
         }
       })
     },
-    pushMessage (msg, selfMessage = false) {
-      const m = {
-        message: `${selfMessage ? '我: ' : ''}${msg}`,
-        type: 'message'
-      }
-      this.messages.push(m)
-    },
     clear () {
       this.messages = []
     },
@@ -170,6 +164,10 @@ export default {
           })
         }
         reader.readAsDataURL(file)
+
+        this.$nextTick(() => {
+          this.scroldown()
+        })
       }
     },
     // 聊天窗口滑动到底部
@@ -200,11 +198,23 @@ export default {
         position: absolute;
         top: 0px;
         left: 0px;
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: url(../../assets/avatart/avatart1.jpg);
+        /* 背景图片的大小, cover就是长宽百分百， 也可以是百分比 */
+        background-size: 200% 200%;
+        background-position: center;
+        /* 背景图片是否重复 */
+        background-repeat: no-repeat;
+        background-attachment: local;
       }
       .content {
-        margin-left: 30px;
+        margin-left: 50px;
+        .name {
+          margin-bottom: 3px;
+          color: #9a9a9a;
+        }
       }
     }
   }
