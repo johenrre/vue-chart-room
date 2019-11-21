@@ -4,8 +4,8 @@ class CurrentUserService {
     this.info = {}
   }
 
-  login (name) {
-    this.info.name = name
+  login (params) {
+    this.info = { ...params }
     this.isLogin = true
   }
 }

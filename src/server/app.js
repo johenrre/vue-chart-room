@@ -27,13 +27,15 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('announcement', `${socket.name} 加入房间`)
   })
   // 发送消息
-  socket.emit('message', '你登录了')
+  // socket.emit('message', '你登录了')
   // 接收消息
   socket.on('message', function (msg) {
     console.log(`收到了${socket.name}：${msg}`)
     // 广播聊天消息
     const user = User.find(socket.name)
-    socket.broadcast.emit('message', user, msg)
+    if (user) {
+      socket.broadcast.emit('message', user, msg)
+    }
   })
   socket.on('image', function (imgData) {
     var user = socket.name

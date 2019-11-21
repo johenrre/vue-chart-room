@@ -23,7 +23,7 @@ class User {
 
   static find (name) {
     const index = userList.findIndex(e => e.name === name)
-    return userList[index]
+    return userList[index] || null
   }
 }
 

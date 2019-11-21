@@ -6,25 +6,28 @@
       <div class="message_box"
            v-for="(item, index) in messages"
            v-bind:key="index">
-        <div class="announcement"
-             v-if="item.type === 'announcement'">
-          {{item.message}}
-        </div>
-        <div class="avatar"
-             v-if="item.type !== 'announcement'"></div>
-        <div class="content">
-          <div class="name">{{item.name}}</div>
-          <div class="message">
-            <template v-if="item.type === 'message'">
-              {{item.message}}
-            </template>
-            <template v-if="item.type === 'image'">
-              <img :src="item.imageData"
-                   style="max-width: 50%; cursor: zoom-in;"
-                   alt="image">
-            </template>
+        <template v-if="item.type === 'announcement'">
+          <div class="announcement"
+               v-if="item.type === 'announcement'">
+            {{item.message}}
           </div>
-        </div>
+        </template>
+        <template v-if="item.type !== 'announcement'">
+          <div class="avatar"></div>
+          <div class="content">
+            <div class="name">{{item.name}}</div>
+            <div class="message">
+              <template v-if="item.type === 'message'">
+                {{item.message}}
+              </template>
+              <template v-if="item.type === 'image'">
+                <img :src="item.imageData"
+                     style="max-width: 50%; cursor: zoom-in;"
+                     alt="image">
+              </template>
+            </div>
+          </div>
+        </template>
       </div>
     </div>
     <div>
@@ -70,38 +73,50 @@ export default {
       },
       rules: {
         message: [
-          { required: true, message: '信息不能为空', trigger: 'blur' }
+          { required: true, message: '信息不能为空' }
         ]
       },
-      messages: []
+      messages: [{
+        type: 'message',
+        name: 'test',
+        avatar: 1,
+        message: 'f223r2'
+      }]
     }
   },
   sockets: {
     message: function (response) {
       const [user, msg] = response
-      console.log('收到信息', msg)
-      this.message.push({
+      this.messages.push({
         type: 'message',
         message: msg,
-        avatar: user.avatar
+        ...user
       })
 
       this.$nextTick(() => {
         this.scroldown()
       })
     },
-    image: function (data) {
-      // const user = data[0]
-      const imageData = data[1]
+    image: function (response) {
+      const [user, imageData] = response
       this.messages.push({
         type: 'image',
-        imageData: imageData
+        imageData: imageData,
+        ...user
+      })
+
+      this.$nextTick(() => {
+        this.scroldown()
       })
     },
     announcement: function (msg) {
       this.messages.push({
         type: 'announcement',
         message: msg
+      })
+
+      this.$nextTick(() => {
+        this.scroldown()
       })
     }
   },
@@ -113,10 +128,17 @@ export default {
       const formRef = this.$refs[formName]
       formRef.validate(valid => {
         if (valid) {
-          const m = this.form.message
+          this.messages.push({
+            type: 'message',
+            message: this.form.message,
+            ...this.$currentUser.info
+          })
+          this.$socket.emit('message', this.form.message)
+
+          this.$nextTick(() => {
+            this.scroldown()
+          })
           formRef.resetFields()
-          this.pushMessage(m, true)
-          this.$socket.emit('message', m)
         }
       })
     },
@@ -141,7 +163,11 @@ export default {
         reader.onload = e => {
           const imgData = e.target.result
           this.$socket.emit('image', imgData)
-          this.pushImage('self', imgData)
+          this.messages.push({
+            type: 'image',
+            imageData: imgData,
+            ...this.$currentUser.info
+          })
         }
         reader.readAsDataURL(file)
       }
