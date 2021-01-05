@@ -9,7 +9,7 @@
     "server": "node ./src/server/app.js"
   },
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "core-js": "^2.6.5",
     "element-resize-detector": "^1.1.15",
     "element-ui": "^2.6.1",
