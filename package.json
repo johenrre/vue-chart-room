@@ -17,7 +17,7 @@
     "lodash": "^4.17.15",
     "normalize.css": "^8.0.1",
     "register-service-worker": "^1.6.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-client": "^2.2.0",
     "style-loader": "^0.23.1",
     "v-viewer": "^1.4.2",
